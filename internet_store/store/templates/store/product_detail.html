@@ -6,6 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-        <h1>Product Detail</h1>
+     <h3>{{ product.product_name }}</h3>
+     <span>Price: {{ product.price }}</span>
+     <img src="{{ product.product_image.url }}" alt="{{ product.name }}" width=160 >
 </body>
 </html>
