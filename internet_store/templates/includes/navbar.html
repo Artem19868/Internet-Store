@@ -1,0 +1,48 @@
+<header class="header">
+    <!--Top header-->
+    <div id="top-header">
+        <div class="container">
+            <ul class="pull-left">
+                <li>
+                    <i class="fa-regular fa-envelope" style="color: #df0c0c;"></i>
+                    email@email.com</li>
+                <li>
+                    <i class="fa-solid fa-phone" style="color: #df0c0c;"></i>
+                    +1 111 111-11-11</li>
+            </ul>
+            <a href="{% url 'account' user_id=request.user.id%}" class="link pull-right">
+                <i class="fa-regular fa-user" style="color: #df0c0c;"></i>
+                <span>My account</span>
+            </a>
+        </div>
+    </div>
+    
+    <!--Main header-->
+    <div id="main-header">
+        <div class="container black">
+            <div class="row">
+                <div class="col-4">
+                    <h1>
+                        <a href="{% url 'store' %}" id="main-link">Quantum</a>
+                    </h1>
+                </div>
+                <div class="col-7">
+                    <form method="get"
+                          action="{% if request.path == '/cart/' %}{% url 'cart' %}{% else %}{% url 'search' %}{% endif %}"
+                          class="search-form mt-3 mb-2">
+                        <input type="text" name="search" class="header-search"
+                               placeholder="{% if request.path == '/cart/' %}Search in cart...{% else %}Search products...{% endif %}" 
+                               value="{{ search_query|default:'' }}">
+                        <button type="submit" class="search-button">Search</button>
+                    </form>
+                </div>
+                <div class="col-1 text-center">
+                    <a href="{% url 'cart' %}" class="link">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        My cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

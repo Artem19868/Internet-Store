@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container-fluid mt-4">
+        <h2 class="mb-4 text-center">Your cart</h2>
+        {% if not cart_items %}
+        <div class="text-center">
+            <h2>Your cart is empty</h2>
+            <br>
+            <a href="{% url 'store' %}" class="btn btn-primary">Continue shopping</a>
+        </div>
+        {% else %}
+        <div class="row">
+            {% for cart_item in cart_items %}
+            <div class="col-3 mb-4">
+                <div class="card h-100  text-center">
+                    <a href="{% url 'detail_view' category_slug=cart_item.product.category.slug product_slug=cart_item.product.slug %}" class="product-link">
+                        <div class="product-image">
+                            <img src="{{ cart_item.product.product_image.url }}" alt="{{ cart_item.product.product_name }}" width=160 >
+                        </div>
+                        <div class="product-body">
+                            <h3>{{ cart_item.product.product_name }}</h3>
+                            <span>${{ cart_item.product.price }}</span>
+                        </div>
+                    </a>    
+                    <div class="cart-controls button-container">
+                        <div class="quantity-selector">
+                            <button class="btn btn-sm btn-outline-secondary minus-button cart-minus-button"
+                                data-product-id="{{ cart_item.product.id }}"
+                                {% if cart_item.amount == 1 %}disabled{% endif %}>−</button>
+                            <span class="quantity">Amount: {{cart_item.amount}}</span>
+                            <button class="btn btn-sm btn-outline-secondary plus-button" 
+                                 data-product-id="{{ cart_item.product.id }}">+</button>
+                        </div>
+                    </div>
+                    <div class="button-container button-container-cart-buy">
+                        <a href="{% url 'remove_from_cart' product_id=cart_item.product.id%}">
+                            <button class="cart-button">Remove from cart</button>
+                        </a><br>
+                        <button class="buy-button">Buy now</button>
+                    </div>
+                    
+                </div>
+            </div>
+                
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+{% endblock content %}

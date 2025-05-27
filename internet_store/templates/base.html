@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum</title>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+    <!--Font Awesome-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!--Font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">  
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static 'css/main.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/product.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/login_register.css'%}" />
+  </head>
+  <body>
+
+    <!-- navbar -->
+    {% if request.path == '/users/registration' or request.path == '/users/login'%}
+    <!--Dont show navbar-->
+    {% else %}
+      {% include 'includes/navbar.html' %}
+    {% endif %}
+
+    <!-- content -->
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+    
+    <!-- footer -->
+    {% if request.path == '/users/registration' or request.path == '/users/login'%}
+    <!--Dont show footer-->
+    {% else %}
+      {% include 'includes/footer.html' %}
+    {% endif %}
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
+    <script src="{% static 'js/gallery.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{%block content%}
+<div class="container-fluid mt-5" id="product-detail">
+    <div class="row">
+        <div class="col-1" id="photo-gallery">
+            <ul>
+                <li>
+                    <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="gallery-photo img-thumbnail">
+                </li>
+                {% for gallery_image in product_gallery %}
+                    <li>
+                        <img src="{{gallery_image.image.url}}" alt="{{gallery_image.product.product_name}}" class="gallery-photo img-thumbnail">
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-3 main-photo">
+            <img src="{{ product.product_image.url }}" alt="{{ product.name }}" id="main-photo" class="img-fluid w-100 main-photo">
+        </div>
+        <div class="col-5 information">
+            <h3>{{ product.product_name }}</h3>
+            <h5 class="mt-3 mb-3">About the product</h5>
+            <div class="product-description">{{product.product_description}}</div>
+            
+            
+        </div>
+        <div class="col-3 cart-buy">
+            <div class="cart-controls button-container card">
+                <h3 class="price">${{ product.price }}</h3>
+                {% if in_cart and cart_item_amount > 0 %}
+                  <div class="quantity-selector">
+                    <button class="minus-button"
+                            data-product-id="{{ product.id }}">−</button>
+                    <span class="quantity" data-product-id="{{ product.id }}">Amount: {{ cart_item_amount }}</span>
+                    <button class="plus-button" 
+                            data-product-id="{{ product.id }}">+</button>
+                  </div>
+                {% else %}
+                  <button class="add-to-cart text-center" 
+                          data-product-id="{{ product.id }}">
+                    Add to cart
+                  </button>
+                {% endif %}
+            </div>
+            <div class="button-container">
+                <button id="buy-button">Buy now</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

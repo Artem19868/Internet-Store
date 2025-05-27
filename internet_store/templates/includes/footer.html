@@ -1,0 +1,47 @@
+<footer>
+  <!-- Main footer -->
+  <div id="main-footer">
+    <div class="container">
+      <div class="row footer-colums">
+        <!--Column 1-->
+        <div class="col-4 footer-column">
+          <div class="footer-section">
+            <h3 class="footer-header mt-2">About Us</h3>
+            <ul>
+              <li>
+                <i class="fa-regular fa-envelope" style="color: #df0c0c;"></i>
+                email@email.com
+              </li>
+              <li>
+                <i class="fa-solid fa-phone" style="color: #df0c0c;"></i>
+                +1 111 111-11-11
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--Column 2-->
+        <div class="col-4 footer-column">
+          <div class="footer-section">
+            <h3 class="footer-header mt-2">Categories</h3>
+            <ul>
+              <li><a href="{% url 'products_by_category' category_slug='laptops'%}" class="link">Laptops</a></li>
+              <li><a href="{% url 'products_by_category' category_slug='headphones'%}" class="link">Headphones</a></li>
+              <li><a href="{% url 'products_by_category' category_slug='smartphones'%}" class="link">Smartphones</a></li>
+              <li><a href="{% url 'products_by_category' category_slug='cameras'%}" class="link">Cameras</a></li>
+            </ul>
+          </div>          
+        </div>
+        <!--Column 3-->
+        <div class="col-4 footer-column">
+          <div class="footer-section">
+            <h3 class="footer-header mt-2">Service</h3>
+            <ul>
+              <li><a href="{% url 'account' user_id=request.user.id%}" class="link">My account</a></li>
+              <li><a href="{% url 'cart' %}" class="link">View cart</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

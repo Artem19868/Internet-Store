@@ -20,7 +20,7 @@ def registration(request):
             user = Users.objects.create_user(first_name=first_name, last_name=last_name,
                                             password=password, email=email, card_number=card_number)
             user.save()
-            return redirect('home')
+            return redirect('store')
         else:
             error = 'The form was filled out incorrectly'
     
@@ -58,3 +58,11 @@ def logout(request):
     auth.logout(request)
     messages.success(request, 'You have successfully logged out of your account.')
     return redirect('login')
+
+@login_required(login_url='login')
+def account(request, user_id):
+    user = Users.objects.get(id = user_id)
+    context = {
+        'user': user
+    }
+    return render(request ,'users/account.html',context)

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{%block content%}
+<div class="container-fluid mt-4">
+    <h2 class="mb-4 text-center">Our products</h2>
+    <div class="row g-3">
+        {% for product, in_cart, amount in products_data %}
+            <div class="col-3 mb-4">
+                <div class="card h-100  text-center">
+                    <a href="{% url 'detail_view' category_slug=product.category.slug product_slug=product.slug %}" class="product-link">
+                        <div class="product-image">
+                            <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width=160 >
+                        </div>
+                        <div class="product-body">
+                            <h3>{{ product.product_name }}</h3>
+                            <span>${{ product.price }}</span>
+                        </div>
+                    </a>
+                    <div class="button-container">
+                        {% if in_cart and amount > 0 %}
+                        <div class="quantity-selector">
+                            <button class="minus-button" 
+                                    data-product-id="{{ product.id }}">−</button>
+                            <span class="quantity">In cart: {{ amount }}</span>
+                            <button class="plus-button" 
+                                    data-product-id="{{ product.id }}">+</button>
+                        </div>
+                        {% else %}
+                        <button class="add-to-cart text-center" 
+                          data-product-id="{{ product.id }}">
+                            Add to cart
+                        </button>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Простая пагинация -->
+    <div class="pagination">
+        {% if paginated_products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}">Back</a>
+        {% endif %}
+    
+        <span>Page {{ paginated_products.number }} of {{ paginated_products.paginator.num_pages }}</span>
+    
+        {% if products.has_next %}
+            <a href="?page={{ paginated_products.next_page_number }}">Forward</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
