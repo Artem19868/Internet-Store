@@ -20,7 +20,7 @@
     border: 1px solid #ddd;
     border-radius: 5px;
 }
-.auth-container div .login-register-link{
+.login-register-link{
     text-decoration: none;
     color: blue;
 }
@@ -52,6 +52,7 @@
 }
 
 .btn-submit {
+    margin-top: 12px;
     width: 100%;
     padding: 10px;
     background-color: #df0c0c;

@@ -46,7 +46,7 @@
     align-items: center;
     gap: 4px;
 }
-.button-container button, .remove-from-cart button{
+.button-container button{
     font-weight: 500;
     width: 140px;
     height: 30px;

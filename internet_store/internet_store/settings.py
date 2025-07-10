@@ -138,8 +138,25 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-LOGIN_URL = 'admin:login'
-LOGIN_REDIRECT_URL = '/admin/'
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+]
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'store'
 
 MEDIA_URL = '/media/'  # URL для доступа к файлам
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Папка для хранения
+
+SESSION_COOKIE_SECURE = False  # Для HTTP (в продакшене должно быть True)
+CSRF_COOKIE_SECURE = False     # Для HTTP
+
+# SMTP configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')

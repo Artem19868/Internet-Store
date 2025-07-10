@@ -1,7 +1,7 @@
 import admin_thumbnails
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Product, ProductGallery
+from .models import Product, ProductGallery, ReviewRating
 
 # Register your models here.
 
@@ -30,5 +30,12 @@ class ProductGallaryAddmin(admin.ModelAdmin):
     list_per_page = 20
     list_max_show_all = 100
 
+class ReviewRatingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'review', 'rating', 'status')
+    list_display_links = ('user', 'product')
+    list_per_page = 20
+    list_max_show_all = 100
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductGallery, ProductGallaryAddmin)
+admin.site.register(ReviewRating, ReviewRatingAdmin)

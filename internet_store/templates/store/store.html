@@ -3,51 +3,108 @@
 {%block content%}
 <div class="container-fluid mt-4">
     <h2 class="mb-4 text-center">Our products</h2>
-    <div class="row g-3">
-        {% for product, in_cart, amount in products_data %}
-            <div class="col-3 mb-4">
-                <div class="card h-100  text-center">
-                    <a href="{% url 'detail_view' category_slug=product.category.slug product_slug=product.slug %}" class="product-link">
-                        <div class="product-image">
-                            <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width=160 >
-                        </div>
-                        <div class="product-body">
-                            <h3>{{ product.product_name }}</h3>
-                            <span>${{ product.price }}</span>
-                        </div>
-                    </a>
-                    <div class="button-container">
-                        {% if in_cart and amount > 0 %}
-                        <div class="quantity-selector">
-                            <button class="minus-button" 
-                                    data-product-id="{{ product.id }}">−</button>
-                            <span class="quantity">In cart: {{ amount }}</span>
-                            <button class="plus-button" 
-                                    data-product-id="{{ product.id }}">+</button>
-                        </div>
-                        {% else %}
-                        <button class="add-to-cart text-center" 
-                          data-product-id="{{ product.id }}">
-                            Add to cart
-                        </button>
-                        {% endif %}
+    
+    <!-- Основной контейнер с двумя колонками -->
+    <div class="row">
+        <!-- Боковая панель (фиксированная ширина) -->
+        <aside class="col-md-2 mb-4">
+            <div class="card">
+                <article class="filter-group">
+                    <header class="card-header">
+                        <a href="#categories_collapse" data-bs-toggle="collapse" aria-expanded="true" role="button" aria-controls="categories_collapse" class="d-flex align-items-center aside_link">
+                            <i class="icon-control fa fa-chevron-down aside_icon"></i>
+                            <h6 class="title">Categories</h6>
+                        </a>
+                    </header>
+                    <div class="collapse show categories_container" id="categories_collapse">
+                        <ul>
+                            <li>
+                                <a class="category_link" href="{% url 'store'%}">All products</a>
+                                <span class="category_product_count">{{paginated_products.count}}</span>
+                            </li>
+                            {% for category in categories %}
+                            <li>
+                                <a class="category_link" href="{% url 'products_by_category' category_slug=category.slug%}">{{category.category_name}}</a>
+                                <div class="category_product_count"></div>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                    
-                </div>
+                </article>
+                <article class="filter-group">
+                    <header class="card-header">
+                        <a href="#price_collapse" data-bs-toggle="collapse" aria-expanded="true" role="button" aria-controls="price_collapse" class="d-flex align-items-center aside_link">
+                            <i class="icon-control fa fa-chevron-down aside_icon"></i>
+                            <h6 class="title">Price range</h6>
+                        </a>
+                    </header>
+                    <form action="{% url 'store' %}" method="GET">
+                        <div class="filter-content collapse show" id="price_collapse" style="">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group form-group-section col-md-6">
+                                        <label>Min.</label>
+                                        <input class="form-control" placeholder="from  {{min_price_placeholder}}"
+                                               type="number" name="min_price">
+                                    </div>
+                                    <div class="form-group form-group-section text-right col-md-6">
+                                        <label>Max.</label>
+                                        <input class="form-control" placeholder="to {{max_price_placeholder}}"
+                                               type="number" name="max_price">
+                                    </div>
+                                </div>
+                                <div class="button-container d-block mb-0">
+                                    <button type="submit">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </article>
             </div>
-        {% endfor %}
-    </div>
+        </aside>
+
+        <!-- Основная область с товарами -->
+        <div class="col-md-10">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                {% for product, in_cart, amount in products_data %}
+                <div class="col mb-4">
+                    <div class="card h-100 text-center">
+                        <a href="{% url 'detail_view' category_slug=product.category.slug product_slug=product.slug %}" class="product-link">
+                            <div class="product-image">
+                                <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width=160>
+                            </div>
+                            <div class="product-body">
+                                <h3>{{ product.product_name }}</h3>
+                                <span>${{ product.price }}</span>
+                            </div>
+                        </a>
+                        <div class="button-container">
+                            {% if in_cart and amount > 0 %}
+                            <div class="quantity-selector">
+                                <button class="minus-button" data-product-id="{{ product.id }}">−</button>
+                                <span class="quantity">In cart: {{ amount }}</span>
+                                <button class="plus-button" data-product-id="{{ product.id }}">+</button>
+                            </div>
+                            {% else %}
+                            <button class="add-to-cart text-center" data-product-id="{{ product.id }}">
+                                Add to cart
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     <!-- Простая пагинация -->
-    <div class="pagination">
-        {% if paginated_products.has_previous %}
-            <a href="?page={{ products.previous_page_number }}">Back</a>
-        {% endif %}
-    
-        <span>Page {{ paginated_products.number }} of {{ paginated_products.paginator.num_pages }}</span>
-    
-        {% if products.has_next %}
-            <a href="?page={{ paginated_products.next_page_number }}">Forward</a>
-        {% endif %}
+    <div class="pagination mb-2">
+        <div class="text-center rounds_container">
+            {% for index in paginated_products.paginator.page_range %}
+            <div class="round_pagination_inactive {%if page_number == index%}round_pagination_active{% endif %}">
+                <a href="?page={{ index }}"  class="pagination_link">{{index}}</a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

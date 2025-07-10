@@ -2,14 +2,15 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 
 class MyUsersManager(BaseUserManager):
-    def create_user(self, first_name, last_name, email, card_number ,password=None):
+    def create_user(self, first_name, last_name, email, card_number, is_active=True, password=None):
         if not email:
             raise ValueError('The user must have an email address.')
         user = self.model(
             email = self.normalize_email(email),
             first_name = first_name,
             last_name = last_name,
-            card_number = card_number
+            card_number = card_number,
+            is_active = is_active
         )
         user.set_password(password)
         user.save(using=self._db)

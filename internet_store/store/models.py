@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from django.db.models import Avg, Count
 from category.models import Category
+from users.models import Users
 
 # Create your models here.
 class Product(models.Model):
@@ -21,6 +23,20 @@ class Product(models.Model):
     def get_url(self):
         return reverse('product_detail', args=[self.category.slug, self.slug])
     
+    def avg_review(self):
+        reviews = ReviewRating.objects.filter(product=self, status=True).aggregate(average=Avg('rating'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg = float(reviews['average'])
+        return avg
+    
+    def count_reviews(self):
+        reviews = ReviewRating.objects.filter(product=self, status=True).aggregate(count=Count('id'))
+        count = 0
+        if reviews['count'] is not None:
+            count = reviews['count']
+        return count
+
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"
@@ -66,3 +82,20 @@ class Variation(models.Model):
     class Meta:
         verbose_name = 'Variation'
         verbose_name_plural = 'Variations'
+
+class ReviewRating(models.Model):
+    objects = models.Manager()
+
+    user = models.ForeignKey(to=Users, on_delete=models.PROTECT, verbose_name='user')
+    product = models.ForeignKey(to=Product, on_delete=models.PROTECT, verbose_name='product')
+    review = models.TextField(max_length=400, blank=True, verbose_name='review')
+    rating = models.FloatField(verbose_name='rating')
+    status = models.BooleanField(default=True, verbose_name='satus')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='created at')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='updated at')
+
+    def __str__(self):
+        return self.review
+    class Meta:
+        verbose_name = 'Rating and review'
+        verbose_name_plural = 'Rating and reviews'

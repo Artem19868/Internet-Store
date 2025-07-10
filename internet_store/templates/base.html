@@ -18,11 +18,12 @@
     <link rel="stylesheet" href="{% static 'css/main.css'%}" />
     <link rel="stylesheet" href="{% static 'css/product.css'%}" />
     <link rel="stylesheet" href="{% static 'css/login_register.css'%}" />
+     <link rel="stylesheet" href="{% static 'css/aside_pagination.css'%}" />
   </head>
   <body>
 
     <!-- navbar -->
-    {% if request.path == '/users/registration' or request.path == '/users/login'%}
+    {% if request.path == '/users/registration' or request.path == '/users/login' or request.path == '/users/forgot_password'%}
     <!--Dont show navbar-->
     {% else %}
       {% include 'includes/navbar.html' %}
@@ -35,14 +36,16 @@
     </main>
     
     <!-- footer -->
-    {% if request.path == '/users/registration' or request.path == '/users/login'%}
+    {% if request.path == '/users/registration' or request.path == '/users/login' or request.path == '/users/forgot_password'%}
     <!--Dont show footer-->
     {% else %}
       {% include 'includes/footer.html' %}
     {% endif %}
 
+    <!-- Custom js -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/cart.js' %}"></script>
     <script src="{% static 'js/gallery.js' %}"></script>
+    <script src="{% static 'js/aside_pagination.js' %}"></script>
   </body>
 </html>

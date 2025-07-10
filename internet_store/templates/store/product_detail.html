@@ -22,8 +22,6 @@
             <h3>{{ product.product_name }}</h3>
             <h5 class="mt-3 mb-3">About the product</h5>
             <div class="product-description">{{product.product_description}}</div>
-            
-            
         </div>
         <div class="col-3 cart-buy">
             <div class="cart-controls button-container card">
@@ -46,6 +44,28 @@
             <div class="button-container">
                 <button id="buy-button">Buy now</button>
             </div>
+        </div>
+    </div>
+    <!-- Reviews -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h4>
+                Customer Reviews
+                <span>{{reviews_count}}</span>
+                <span>
+                    <i class="{% if rating < 0.5 %}fa-regular fa-star{% elif rating >= 0.5 and rating < 1 %}fa-solid fa-star-half-stroke {%else%}fa-solid fa-star {% endif %}" style="color: #FFD43B;"></i>
+                    <i class="{% if rating < 1.5 %}fa-regular fa-star{% elif rating >= 1.5 and rating < 2 %}fa-solid fa-star-half-stroke {%else%}fa-solid fa-star {% endif %}" style="color: #FFD43B;"></i>
+                    <i class="{% if rating < 2.5 %}fa-regular fa-star{% elif rating >= 2.5 and rating < 3 %}fa-solid fa-star-half-stroke {%else%}fa-solid fa-star {% endif %}" style="color: #FFD43B;"></i>
+                    <i class="{% if rating < 3.5 %}fa-regular fa-star{% elif rating >= 3.5 and rating < 4 %}fa-solid fa-star-half-stroke {%else%}fa-solid fa-star {% endif %}" style="color: #FFD43B;"></i>
+                    <i class="{% if rating < 4.5 %}fa-regular fa-star{% elif rating >= 4.5 and rating < 5 %}fa-solid fa-star-half-stroke {%else%}fa-solid fa-star {% endif %}" style="color: #FFD43B;"></i>
+                </span>
+            </h4>
+            {% for review in reviews %}
+            <div>
+                <h6>{{review.user}}  {{review.rating}}</h6>
+                {{review}}
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
