@@ -35,6 +35,13 @@
     border-radius: 50%;
     transition: background-color 0.5s;
 }
+.pagination_dots{
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    margin-left: 12px;
+}
 .round_pagination_inactive:hover{
     background-color: rgba(212, 212, 212, 0.926);
 }

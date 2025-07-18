@@ -1,0 +1,4 @@
+<div class="round_pagination_inactive {%if page_number == active_page_number%}round_pagination_active{% endif %}">
+        <a href="?page={{ page_number }}{% if request.GET.min_price and request.GET.max_price %}&min_price={{min_price}}&max_price={{max_price}}{% endif %}"  
+        class="pagination_link">{{ page_number }}</a>
+</div>
