@@ -1,5 +1,5 @@
 /*Registration*/
-.auth-container {
+.window-container {
     max-width: 500px;
     margin: 50px auto;
     padding: 30px;
@@ -33,31 +33,18 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.btn-submit:disabled{
+    background-color: #26272d;
+    color: white;
+    border: none;
+    border-radius: 5px;
 
-/*Login*/
-.auth-container {
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
-
+/*Login*/
 .form-field {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
-}
-
-.btn-submit {
-    margin-top: 12px;
-    width: 100%;
-    padding: 10px;
-    background-color: #df0c0c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }

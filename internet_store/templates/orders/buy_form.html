@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="window-container">
+        <h2 class="text-center mb-4">Buy a product</h2>
+
+        <div>
+            <h5>Name: {{purchased_product.product.product_name}}</h5><br>
+            <h5>Amount: {{purchased_product.amount}}</h5><br>
+            <h5>Total price: ${{purchased_product.total_price}}</h5><br>
+        </div>
+        <button type="submit" class="btn-submit" disabled id="product_purchase_button">Please wait 20 seconds</button>
+         
+    </div>
+</div>
+{% endblock content %}

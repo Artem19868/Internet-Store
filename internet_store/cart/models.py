@@ -31,7 +31,7 @@ class CartItem(models.Model):
         return f'Product: {self.product}'
     
     def total_price(self):
-        return self.product.price * self.amountS
+        return self.product.price * self.amount
 
     class Meta:
         verbose_name = 'Cart item'
