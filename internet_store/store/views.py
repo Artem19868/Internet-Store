@@ -58,10 +58,21 @@ def reviews_rating_info(products):
             'rating': Product.avg_review(products),
             'count_reviews': Product.count_reviews(products)
         }
+    
+def custom_page_range(pages_count, active_page_number):
+    custom_page_range = 0
+        
+    if active_page_number >= pages_count-2:
+        custom_page_range = range(pages_count-4, pages_count+1)
+    elif active_page_number>=5:
+        custom_page_range = range(active_page_number-2, active_page_number+3)
+    else:
+        custom_page_range = range(1, 7)
+    return custom_page_range
 
 @login_required(login_url='login')
 def store(request,category_slug=None):
-    page_number = int(request.GET.get('page', 1))
+    active_page_number = int(request.GET.get('page', 1))
     min_price = 0
     max_price = Product.objects.aggregate(Max('price'))['price__max']
 
@@ -88,30 +99,22 @@ def store(request,category_slug=None):
             products_data = products_info(request, paginated_products)
         else:
             all_products = Product.objects.all()
-            paginated_products = paginator(request, all_products, 2)
+            paginated_products = paginator(request, all_products, 4)
             products_data = products_info(request, paginated_products)
 
-        #Custom page range variable
-        pages_count = paginated_products.paginator.num_pages
-        custom_page_range = 0
-        
-        if page_number >= pages_count-2:
-            custom_page_range = range(pages_count-4, pages_count+1)
-        elif page_number>=5:
-            custom_page_range = range(page_number-2, page_number+3)
-        else:
-            custom_page_range = range(1, 7)
+    #Custom page range
+    pages_count = paginated_products.paginator.num_pages
+    page_range = custom_page_range(pages_count, active_page_number)
 
     context = {
         'products_data': products_data,
         'paginated_products': paginated_products,
         'categories': Category.objects.all(),
-        'page_number': page_number,
         'min_price': min_price,
         'max_price': max_price,
-        'active_page_number': page_number,
+        'active_page_number': active_page_number,
         'max_ellipsis_pagination': pages_count-2,
-        'custom_page_range': custom_page_range
+        'custom_page_range': page_range
     }
     return render(request,'store/store.html', context)
 
@@ -139,22 +142,50 @@ def detail_view(request, category_slug, product_slug):
     return render(request, 'store/product_detail.html', context)
 
 def search(request):
-    page_number = int(request.GET.get('page', 1))
+    active_page_number = int(request.GET.get('page', 1))
     search_query = request.GET.get('search', '').strip()
 
+    min_price = 0
+    max_price = Product.objects.aggregate(Max('price'))['price__max']
+
     if search_query:
-        search_products = Product.objects.filter(Q(product_name__icontains=search_query) | Q(category__category_name__icontains=search_query), is_available=True).order_by('-product_name')
+        if('min_price' in request.GET):
+            min_price = request.GET.get('min_price')
+            max_price = request.GET.get('max_price')
+            search_products = Product.objects.filter(Q(product_name__icontains=search_query) | Q(category__category_name__icontains=search_query), is_available=True, price__range=(min_price, max_price)).order_by('-product_name')
+            paginated_products = paginator(request, search_products, 4)
+            products_data = products_info(request, paginated_products)
+        else:
+            search_products = Product.objects.filter(Q(product_name__icontains=search_query) | Q(category__category_name__icontains=search_query), is_available=True, price__range=(min_price, max_price)).order_by('-product_name')
+            paginated_products = paginator(request, search_products, 4)
+            products_data = products_info(request, paginated_products)
     else:
-        search_products = Product.objects.filter(is_available=True)
+        if('min_price' in request.GET):
+            min_price = request.GET.get('min_price')
+            max_price = request.GET.get('max_price')
+            search_products = Product.objects.filter(is_available=True, price__range=(min_price, max_price)).order_by('-product_name')
+            paginated_products = paginator(request, search_products, 4)
+            products_data = products_info(request, paginated_products)
+        else:
+            search_products = Product.objects.filter(is_available=True, price__range=(min_price, max_price)).order_by('-product_name')
+            paginated_products = paginator(request, search_products, 4)
+            products_data = products_info(request, paginated_products)
 
     paginated_products = paginator(request, search_products, 4)
     products_data = products_info(request, paginated_products)
+
+    #Custom page range
+    pages_count = paginated_products.paginator.num_pages
+    page_range = custom_page_range(pages_count, active_page_number)
 
     context = {
         'search_query': search_query,
         'products_data': products_data,
         'paginated_products': paginated_products,
-        'page_number': page_number,
+        'active_page_number': active_page_number,
         'categories': Category.objects.all(),
+        'min_price': min_price,
+        'max_price': max_price,
+        'custom_page_range': page_range
     }
     return render(request, 'store/store.html', context)

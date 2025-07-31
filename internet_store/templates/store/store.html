@@ -103,29 +103,29 @@
         <div class="text-center rounds_container">
             {% if paginated_products.paginator.num_pages > 6 %}
                 
-                {% if page_number >= max_ellipsis_pagination %}
+                {% if active_page_number >= max_ellipsis_pagination %}
                     {% include "includes/pagination_link.html" with page_number=1 active_page_number=active_page_number%}
                     <div class="pagination_dots">...</div>
                 {% for index in custom_page_range %}
                     {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number%}
                 {% endfor %}
                 
-                {% elif page_number >= 5%}
-                    {% include "includes/pagination_link.html" with page_number=1 active_page_number=active_page_number%}
+                {% elif active_page_number >= 5%}
+                    {% include "includes/pagination_link.html" with page_number=1 active_page_number=active_page_number search_query=search_query%}
                     <div class="pagination_dots">...</div>
                 {% for index in custom_page_range %}
-                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number%}
+                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number search_query=search_query%}
                 {% endfor %}
                     <div class="pagination_dots">...</div>
-                    {% include "includes/pagination_link.html" with page_number=paginated_products.paginator.num_pages active_page_number=active_page_number%}
+                    {% include "includes/pagination_link.html" with page_number=paginated_products.paginator.num_pages active_page_number=active_page_number search_query=search_query%}
 
                 {% else %}
 
                 {% for index in custom_page_range %}
-                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number%}
+                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number search_query=search_query%}
                 {% endfor %}
                     <div class="pagination_dots">...</div>
-                    {% include "includes/pagination_link.html" with page_number=paginated_products.paginator.num_pages active_page_number=active_page_number%}
+                    {% include "includes/pagination_link.html" with page_number=paginated_products.paginator.num_pages active_page_number=active_page_number search_query=search_query%}
                 {% endif %}
 
             {% endif %}
@@ -133,7 +133,7 @@
             {% if paginated_products.paginator.num_pages <= 6 %}
 
             {% for index in paginated_products.paginator.page_range %}
-                {% include "includes/pagination_link.html" with page_number=index active_page=active_page_number%}
+                {% include "includes/pagination_link.html" with page_number=index active_page=active_page_number search_query=search_query%}
             {% endfor %}
 
             {% endif %}
