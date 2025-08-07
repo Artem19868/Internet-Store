@@ -10,6 +10,7 @@ from category.models import Category
 def is_in_cart(request, product):
         in_cart = False
         cart_item_amount = 0
+        is_purchased = False
         if request.user.is_authenticated:
             cart_item = CartItem.objects.filter(
                 cart__user = request.user,
@@ -18,9 +19,11 @@ def is_in_cart(request, product):
             if cart_item:
                 in_cart = True
                 cart_item_amount = cart_item.amount
+                is_purchased = cart_item.is_purchased
         return {
             'in_cart': in_cart,
-            'cart_item_amount': cart_item_amount
+            'cart_item_amount': cart_item_amount,
+            'is_purchased': is_purchased
         }
 
 def paginator(request, product_list, products_per_page):
@@ -134,6 +137,7 @@ def detail_view(request, category_slug, product_slug):
        'product': product,
        'in_cart': cart_data['in_cart'],
        'cart_item_amount': cart_data['cart_item_amount'],
+       'is_purchased': cart_data['is_purchased'],
        'reviews': reviews,
        'reviews_count': reviews_rating_data['count_reviews'],
        'rating': reviews_rating_data['rating'],

@@ -60,6 +60,7 @@
     background-color: #212529;
     color: white;
 }
+
 /* Product detail styles */
 #product-detail{
     margin: 0, auto;
@@ -103,6 +104,33 @@
 .product-description{
     font-size: 18px;
     font-weight: 400;
+}
+.rate {
+    display: flex;        
+    flex-direction: row-reverse; 
+    justify-content: flex-end; 
+}
+
+.rate > input {
+    display: none;
+}
+
+.rate > label {
+    color: #ccc;      
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.rate > label::before {
+    content: '\f005';   
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+
+.rate input:checked ~ label,
+.rate label:hover,
+.rate label:hover ~ label {
+    color: #ffb503;
 }
 /*Plus minus buttons styles*/
 .button-container .plus-button, .button-container .minus-button{

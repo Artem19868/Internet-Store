@@ -86,12 +86,13 @@ class Variation(models.Model):
 class ReviewRating(models.Model):
     objects = models.Manager()
 
-    user = models.ForeignKey(to=Users, on_delete=models.PROTECT, verbose_name='user')
-    product = models.ForeignKey(to=Product, on_delete=models.PROTECT, verbose_name='product')
+    user = models.ForeignKey(to=Users, on_delete=models.CASCADE, verbose_name='user')
+    product = models.ForeignKey(to=Product, on_delete=models.CASCADE, verbose_name='product')
     review = models.TextField(max_length=400, blank=True, verbose_name='review')
-    rating = models.FloatField(verbose_name='rating')
+    rating = models.IntegerField(verbose_name='rating')
     status = models.BooleanField(default=True, verbose_name='satus')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='created at')
+    # delete update field
     updated_at = models.DateTimeField(auto_now=True, verbose_name='updated at')
 
     def __str__(self):

@@ -26,6 +26,7 @@ class CartItem(models.Model):
     amount = models.IntegerField( default=1, verbose_name='Amount')
     variations = models.ManyToManyField(Variation, blank=True, verbose_name='Product variations')
     is_active = models.BooleanField(default=True, verbose_name='Is active')
+    is_purchased = models.BooleanField(default=False, verbose_name='Is purchased')
 
     def __str__(self):
         return f'Product: {self.product}'
