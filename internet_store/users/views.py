@@ -140,7 +140,32 @@ def reset_password(request):
         return redirect('login')
     else:
         return render(request, 'users/reset_password.html')
+    
+@login_required(login_url='login')
+def change_password(request):
+    if request.method == 'POST':
+        uid = request.user.id
+        user = Users.objects.get(id=uid)
 
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        new_password_confirm = request.POST['new_password_confirm']
+
+
+        if new_password == new_password_confirm:
+            success = user.check_password(old_password)
+            if success:
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)
+                messages.success(request,'Password changed successfully')
+                return redirect('change_password')
+            else:
+                messages.error(request, 'Enter the current password correctly')
+        else:
+            messages.error(request,'Passwords must match')
+            return redirect('change_password')
+    return render(request, 'users/change_password.html')
 
 # def reset_password(request):
 #     if request.method == 'POST':

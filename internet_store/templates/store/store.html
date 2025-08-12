@@ -53,6 +53,11 @@
                                         <input class="form-control" placeholder="to"
                                             value="{{ request.GET.max_price|default:max_price }}"
                                                type="number" name="max_price">
+                                        
+                                        {% comment %} <div class="slider-container">
+                                            <input type="range" id="lower" min="0" max="100" value="20">
+                                            <input type="range" id="upper" min="0" max="100" value="80">
+                                        </div> {% endcomment %}
                                     </div>
                                 </div>
                                 <div class="button-container d-block mb-0">
