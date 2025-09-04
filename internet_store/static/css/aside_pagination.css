@@ -12,13 +12,43 @@
 .category_link{
    transition: all;
 }
-.category_link:hover{
-    color: #f30808;
-    background-color: rgba(232, 230, 230, 0.5);
-}
 .form-group-section:last-of-type{
     margin-top: 12px;
     margin-bottom: 4px;
+}
+.aside_form .button-container button {
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 12px;
+}
+.aside_checkbox{
+    display: none;
+}
+.aside_label{
+    color: black;
+    width: 120px;
+    height: 36px;
+    text-align: center;
+    line-height: 36px;
+    display: inline-block;
+    background-color: #EAEAEC;
+    border-radius: 20px;
+    margin-top: 8px;
+    transition: all 0.5s;
+}
+.category_aside_label{
+    transition: all 0.2s;
+}
+.aside_label:hover{
+    background-color: #DADBDD;
+}
+.aside_checkbox:checked + .aside_label{
+    background-color:#df0c0c;
+    color: white;
+}
+.category_aside_checkbox:disabled + .aside_label{
+    background-color:#3c3b3b;
+    color: white;
 }
 /* Pagination styles */
 .pagination_link{

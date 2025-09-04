@@ -1,7 +1,9 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render,redirect
 from django.core.paginator import Paginator
 from django.db.models import Q, Max, QuerySet
 from django.contrib.auth.decorators import login_required
+from django.http import QueryDict
+from urllib.parse import urlparse
 from .models import Product, ProductGallery, ReviewRating
 from cart.models import CartItem
 from category.models import Category
@@ -74,21 +76,25 @@ def custom_page_range(pages_count, active_page_number):
     return custom_page_range
 
 @login_required(login_url='login')
-def store(request,category_slug=None):
+def store(request):
     active_page_number = int(request.GET.get('page', 1))
+
     min_price = 0
     max_price = Product.objects.aggregate(Max('price'))['price__max']
+    
+    max_price_const = Product.objects.aggregate(Max('price'))['price__max']
 
-    if(category_slug):
-        all_products = Product.objects.filter(category__slug = category_slug)
+    categories_list = request.GET.getlist('categories_slug')
+
+    if(categories_list):
         if('min_price' in request.GET):
             min_price = request.GET.get('min_price')
             max_price = request.GET.get('max_price')
-            products = Product.objects.filter(price__range=(min_price, max_price), category__slug=category_slug, is_available=True).order_by('id')
+            products = Product.objects.filter(price__range=(min_price, max_price), category__slug__in=categories_list, is_available=True).order_by('id')
             paginated_products = paginator(request, products, 4)
             products_data = products_info(request, paginated_products)
         else:
-            products = Product.objects.filter(category__slug=category_slug, is_available=True).order_by('id')
+            products = Product.objects.filter(category__slug__in=categories_list, is_available=True).order_by('id')
             paginated_products = paginator(request, products, 4)
             products_data = products_info(request, paginated_products)
     else:
@@ -112,9 +118,10 @@ def store(request,category_slug=None):
     context = {
         'products_data': products_data,
         'paginated_products': paginated_products,
+        'categories_list': categories_list,
         'categories': Category.objects.all(),
         'min_price': min_price,
-        'max_price': max_price,
+        'max_price': max_price_const,
         'active_page_number': active_page_number,
         'max_ellipsis_pagination': pages_count-2,
         'custom_page_range': page_range
@@ -146,13 +153,28 @@ def detail_view(request, category_slug, product_slug):
     return render(request, 'store/product_detail.html', context)
 
 def search(request):
+    categories_list = request.GET.getlist('categories_slug')
+
     active_page_number = int(request.GET.get('page', 1))
     search_query = request.GET.get('search', '').strip()
 
     min_price = 0
     max_price = Product.objects.aggregate(Max('price'))['price__max']
 
-    if search_query:
+    max_price_const = Product.objects.aggregate(Max('price'))['price__max']
+
+    if(categories_list):
+        if('min_price' in request.GET):
+            min_price = request.GET.get('min_price')
+            max_price = request.GET.get('max_price')
+            search_products = Product.objects.filter(Q(product_name__icontains=search_query) | Q(category__category_name__icontains=search_query), price__range=(min_price, max_price), category__slug__in=categories_list, is_available=True).order_by('id')
+            paginated_products = paginator(request, search_products, 4)
+            products_data = products_info(request, paginated_products)
+        else:
+            search_products = Product.objects.filter(category__slug__in=categories_list, is_available=True).order_by('id')
+            paginated_products = paginator(request, search_products, 4)
+            products_data = products_info(request, paginated_products)
+    elif search_query:
         if('min_price' in request.GET):
             min_price = request.GET.get('min_price')
             max_price = request.GET.get('max_price')
@@ -189,7 +211,7 @@ def search(request):
         'active_page_number': active_page_number,
         'categories': Category.objects.all(),
         'min_price': min_price,
-        'max_price': max_price,
+        'max_price': max_price_const,
         'custom_page_range': page_range
     }
     return render(request, 'store/store.html', context)

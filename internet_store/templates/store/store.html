@@ -10,67 +10,74 @@
         <aside class="col-md-2 mb-4">
             <div class="card">
                 <article class="filter-group">
-                    <header class="card-header">
-                        <a href="#categories_collapse" data-bs-toggle="collapse" aria-expanded="true" role="button" aria-controls="categories_collapse" class="d-flex align-items-center aside_link">
-                            <i class="icon-control fa fa-chevron-down aside_icon"></i>
-                            <h6 class="title">Categories</h6>
-                        </a>
-                    </header>
-                    <div class="collapse show categories_container" id="categories_collapse">
-                        <ul>
-                            <li>
-                                <a class="category_link" href="{% url 'store'%}">All products</a>
-                                <span class="category_product_count">{{paginated_products.count}}</span>
-                            </li>
-                            {% for category in categories %}
-                            <li>
-                                <a class="category_link" href="{% url 'products_by_category' category_slug=category.slug%}">{{category.category_name}}</a>
-                                <div class="category_product_count"></div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </article>
-                <article class="filter-group">
-                    <header class="card-header">
-                        <a href="#price_collapse" data-bs-toggle="collapse" aria-expanded="true" role="button" aria-controls="price_collapse" class="d-flex align-items-center aside_link">
-                            <i class="icon-control fa fa-chevron-down aside_icon"></i>
-                            <h6 class="title">Price range</h6>
-                        </a>
-                    </header>
-                    <form action="{% url 'store' %}" method="GET">
-                        <div class="filter-content collapse show" id="price_collapse" style="">
-                            <div class="card-body">
-                                <div class="form-row">
-                                    {% comment %} <div class="form-group form-group-section col-md-6">
-                                        <label>Min.</label>
-                                        <input class="form-control" placeholder="from"
-                                            value="{{ request.GET.min_price|default:'min_price' }}"
-                                               type="number" name="min_price">
-                                    </div>
-                                    <div class="form-group form-group-section text-right col-md-6">
-                                        <label>Max.</label>
-                                        <input class="form-control" placeholder="to"
-                                            value="{{ request.GET.max_price|default:max_price }}"
-                                               type="number" name="max_price">
-                                    </div> {% endcomment %}
-                                    <div class="range_container">
-                                        <input type="range" id="lower_range" class="range_input" min="0" max="{{max_price}}" value="20" name="min_price">
-                                        
-                                        <div class="value_container">
-                                            <span id="range_value_lower"></span>
-                                            -
-                                            <span id="range_value_upper"></span>
+                    <form action="{% if request.path == '/search/' %}{% url 'search' %}{% else %}{% url 'store' %}{% endif %}" 
+                        method="GET" class="aside_form">
+                        <header class="card-header text-center">
+                            <a href="#categories_collapse" data-bs-toggle="collapse" aria-expanded="true" role="button" aria-controls="categories_collapse" class="d-flex align-items-center aside_link">
+                                <i class="icon-control fa fa-chevron-down aside_icon"></i>
+                                <h6 class="title">Categories</h6>
+                            </a>
+                        </header>
+                        <div class="collapse show categories_container" id="categories_collapse">
+                            <ul>
+                                <li>
+                                    <!--<a class="category_link" href="{% url 'store'%}">All products</a>-->
+                                    <input type="checkbox" id="all_products_checkbox" class="aside_checkbox">
+                                    <label for="all_products_checkbox" class="aside_label">All products</label><br>
+                                </li>
+                                {% for category in categories %}
+                                <li>
+                                    <!--<a class="category_link" href="{% url 'products_by_category' category_slug=category.slug%}">{{category.category_name}}</a>-->
+                                    <input type="checkbox" id="{{category.slug}}" class="aside_checkbox category_aside_checkbox" name="categories_slug" value="{{category.slug}}">
+                                    <label for="{{category.slug}}" class="category_aside_label aside_label">{{category.category_name}}</label><br>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a href="#price_collapse" data-bs-toggle="collapse" aria-expanded="true" role="button" aria-controls="price_collapse" class="d-flex align-items-center aside_link">
+                                    <i class="icon-control fa fa-chevron-down aside_icon"></i>
+                                    <h6 class="title">Price range</h6>
+                                </a>
+                            </header>
+                            <div class="filter-content collapse show" id="price_collapse" style="">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        {% comment %} <div class="form-group form-group-section col-md-6">
+                                            <label>Min.</label>
+                                            <input class="form-control" placeholder="from"
+                                                value="{{ request.GET.min_price|default:'min_price' }}"
+                                                type="number" name="min_price">
                                         </div>
+                                        <div class="form-group form-group-section text-right col-md-6">
+                                            <label>Max.</label>
+                                            <input class="form-control" placeholder="to"
+                                                value="{{ request.GET.max_price|default:max_price }}"
+                                                type="number" name="max_price">
+                                        </div> {% endcomment %}
+                                        <div class="range_container">
+                                            <input type="range" id="lower_range" class="range_input" min="0" max="{{max_price}}" value="20" name="min_price">
+                                        
+                                            <div class="value_container">
+                                                <span id="range_value_lower"></span>
+                                                -
+                                                <span id="range_value_upper"></span>
+                                            </div>
 
-                                        <input type="range" id="upper_range" class="range_input" min="0" max="{{max_price}}" value="80%" name="max_price">
+                                            <input type="range" id="upper_range" class="range_input" min="0" max="{{max_price}}" value="80%" name="max_price">
+                                        </div>
                                     </div>
-                                    
-                                </div>
-                                <div class="button-container d-block mb-0">
-                                    <button type="submit">Apply</button>
                                 </div>
                             </div>
+                        </article>
+                        <!--hidden input fields for query parameters-->
+                        {% if request.GET.search %}
+                        <input type="hidden" name="search" value="{{request.GET.search}}">
+                        {% endif %}
+                        
+                        <div class="button-container d-block mb-0">
+                            <button type="submit">Apply</button>
                         </div>
                     </form>
                 </article>
@@ -116,28 +123,28 @@
             {% if paginated_products.paginator.num_pages > 6 %}
                 
                 {% if active_page_number >= max_ellipsis_pagination %}
-                    {% include "includes/pagination_link.html" with page_number=1 active_page_number=active_page_number%}
+                    {% include "includes/pagination_link.html" with page_number=1 active_page_number=active_page_number categories_list=categories_list%}
                     <div class="pagination_dots">...</div>
                 {% for index in custom_page_range %}
-                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number%}
+                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number categories_list=categories_list%}
                 {% endfor %}
                 
                 {% elif active_page_number >= 5%}
-                    {% include "includes/pagination_link.html" with page_number=1 active_page_number=active_page_number search_query=search_query%}
+                    {% include "includes/pagination_link.html" with page_number=1 active_page_number=active_page_number search_query=search_query categories_list=categories_list%}
                     <div class="pagination_dots">...</div>
                 {% for index in custom_page_range %}
-                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number search_query=search_query%}
+                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number search_query=search_query categories_list=categories_list%}
                 {% endfor %}
                     <div class="pagination_dots">...</div>
-                    {% include "includes/pagination_link.html" with page_number=paginated_products.paginator.num_pages active_page_number=active_page_number search_query=search_query%}
+                    {% include "includes/pagination_link.html" with page_number=paginated_products.paginator.num_pages active_page_number=active_page_number search_query=search_query categories_list=categories_list%}
 
                 {% else %}
 
                 {% for index in custom_page_range %}
-                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number search_query=search_query%}
+                    {% include "includes/pagination_link.html" with page_number=index active_page_number=active_page_number search_query=search_query categories_list=categories_list%}
                 {% endfor %}
                     <div class="pagination_dots">...</div>
-                    {% include "includes/pagination_link.html" with page_number=paginated_products.paginator.num_pages active_page_number=active_page_number search_query=search_query%}
+                    {% include "includes/pagination_link.html" with page_number=paginated_products.paginator.num_pages active_page_number=active_page_number search_query=search_query categories_list=categories_list%}
                 {% endif %}
 
             {% endif %}
@@ -145,7 +152,7 @@
             {% if paginated_products.paginator.num_pages <= 6 %}
 
             {% for index in paginated_products.paginator.page_range %}
-                {% include "includes/pagination_link.html" with page_number=index active_page=active_page_number search_query=search_query%}
+                {% include "includes/pagination_link.html" with page_number=index active_page=active_page_number search_query=search_query categories_list=categories_list%}
             {% endfor %}
 
             {% endif %}

@@ -33,6 +33,19 @@
                         <input type="text" name="search" class="header-search"
                                placeholder="{% if request.path == '/cart/' %}Search in cart...{% else %}Search products...{% endif %}" 
                                value="{{ search_query|default:'' }}">
+
+                            <!--hidden input fields for query parameters-->
+                            {% for key, values in request.GET.lists %}
+                                {% if key == 'categories_slug' %}
+                                    {% for category_slug in values %}
+                                        <input type="hidden" name="categories_slug" value="{{ category_slug }}">
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if request.GET.min_price %}
+                            <input type="hidden" name="min_price" value="{{ request.GET.min_price|default:'' }}">
+                            <input type="hidden" name="max_price" value="{{ request.GET.max_price|default:'' }}">
+                            {% endif %}
                         <button type="submit" class="search-button">Search</button>
                     </form>
                 </div>
