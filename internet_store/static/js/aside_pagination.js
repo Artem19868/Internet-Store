@@ -21,3 +21,49 @@ document.getElementById("all_products_checkbox").addEventListener('click', funct
         asideCheckbox.disabled = !asideCheckbox.disabled;
     })
 });
+
+document.getElementById('filters_form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Не дать форме отправляться
+});
+
+function submitCategories(){
+    const form = document.getElementById("filters_form");
+    const formData = new FormData(form);
+
+    formData.delete("max_price");
+    formData.delete("min_price");
+
+    const params = new URLSearchParams(formData);
+    window.location.search = params.toString();
+}
+
+function submitPrice(){
+    const form = document.getElementById("filters_form");
+    const formData = new FormData(form);
+
+    formData.delete("categories_slug");
+
+    const params = new URLSearchParams(formData);
+    window.location.search = params.toString();
+}
+
+function submitAllFilters(){
+    const form = document.getElementById("filters_form");
+    const formData = new FormData(form);
+
+    const params = new URLSearchParams(formData);
+    window.location.search = params.toString();
+}
+
+function clearFilters(){
+    const params = new URLSearchParams();
+
+    const currentParams = new URLSearchParams(window.location.search);
+    const searchParam = currentParams.get("search");
+
+    if(searchParam){
+        params.set("search", searchParam);
+    }
+    console.log(params)
+    window.location.search = params.toString();
+}
