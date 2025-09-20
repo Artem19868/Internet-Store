@@ -22,9 +22,9 @@
   </head>
   <body>
 
-    <!-- navbar -->
-    {% if request.path == '/users/registration' or request.path == '/users/login' or request.path == '/users/forgot_password'%}
     <!--Dont show navbar-->
+    {% if request.path == '/users/registration' or request.path == '/users/login' or request.path == '/users/forgot_password'%}
+    <!-- navbar -->
     {% else %}
       {% include 'includes/navbar.html' %}
     {% endif %}
@@ -34,10 +34,10 @@
       {% block content %}
       {% endblock %}
     </main>
-    
-    <!-- footer -->
-    {% if request.path == '/users/registration' or request.path == '/users/login' or request.path == '/users/forgot_password'%}
+        
     <!--Dont show footer-->
+    {% if request.path == '/users/registration' or request.path == '/users/login' or request.path == '/users/forgot_password'%}
+    <!-- footer -->
     {% else %}
       {% include 'includes/footer.html' %}
     {% endif %}

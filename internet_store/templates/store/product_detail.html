@@ -4,6 +4,7 @@
   <div class="container-fluid mt-5" id="product-detail">
     <div class="row">
       <div class="col-1" id="photo-gallery">
+        <!--Image gallery-->
         <ul>
           <li>
             <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="gallery-photo img-thumbnail" />
@@ -15,6 +16,7 @@
           {% endfor %}
         </ul>
       </div>
+      <!--About product-->
       <div class="col-3 main-photo">
         <img src="{{ product.product_image.url }}" alt="{{ product.name }}" id="main-photo" class="img-fluid w-100 main-photo" />
       </div>

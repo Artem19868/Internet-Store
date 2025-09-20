@@ -27,6 +27,7 @@
                     </h1>
                 </div>
                 <div class="col-7">
+                    <!--Search form-->    
                     <form method="get"
                           action="{% if request.path == '/cart/' %}{% url 'cart' %}{% else %}{% url 'search' %}{% endif %}"
                           class="search-form mt-3 mb-2">

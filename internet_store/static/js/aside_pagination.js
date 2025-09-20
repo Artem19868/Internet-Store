@@ -22,8 +22,9 @@ document.getElementById("all_products_checkbox").addEventListener('click', funct
     })
 });
 
+//Prevent the form from being sent
 document.getElementById('filters_form').addEventListener('submit', function(e) {
-    e.preventDefault(); // Не дать форме отправляться
+    e.preventDefault();
 });
 
 function submitCategories(){

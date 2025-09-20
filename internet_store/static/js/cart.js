@@ -12,13 +12,6 @@ document.querySelectorAll('.add-to-cart').forEach(btn => {
             });
             const data = await response.json();
             if (data.success){
-                // button.outerHTML = `<div class="quantity-selector">
-                //         <button class="btn btn-sm btn-outline-secondary minus" 
-                //                 data-product-id="${productId}">−</button>
-                //         <span class="quantity">In cart: ${data.product_amount}</span>
-                //         <button class="btn btn-sm btn-outline-secondary plus" 
-                //                 data-product-id="${productId}">+</button>
-                //     </div>`;
                 location.reload()
             }
 

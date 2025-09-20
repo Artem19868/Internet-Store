@@ -4,9 +4,9 @@
 <div class="container-fluid mt-4">
     <h2 class="mb-4 text-center">Our products</h2>
     
-    <!-- Основной контейнер с двумя колонками -->
+    <!-- Main container with two columns -->
     <div class="row">
-        <!-- Боковая панель (фиксированная ширина) -->
+        <!-- Sidebar (fixed width) -->
         <aside class="col-md-2 mb-4">
             <div class="card">
                 <article class="filter-group">
@@ -21,13 +21,11 @@
                         <div class="collapse show categories_container" id="categories_collapse">
                             <ul>
                                 <li>
-                                    <!--<a class="category_link" href="{% url 'store'%}">All products</a>-->
                                     <input type="checkbox" id="all_products_checkbox" class="aside_checkbox">
                                     <label for="all_products_checkbox" class="aside_label">All products</label><br>
                                 </li>
                                 {% for category in categories %}
                                 <li>
-                                    <!--<a class="category_link" href="{% url 'products_by_category' category_slug=category.slug%}">{{category.category_name}}</a>-->
                                     <input type="checkbox" id="{{category.slug}}" class="aside_checkbox category_aside_checkbox" name="categories_slug" value="{{category.slug}}">
                                     <label for="{{category.slug}}" class="category_aside_label aside_label">{{category.category_name}}</label><br>
                                 </li>
@@ -75,8 +73,13 @@
                         {% if request.GET.search %}
                         <input type="hidden" name="search" value="{{request.GET.search}}">
                         {% endif %}
-                        
-                        <div class="filter_actions_group">
+                        <header class="card-header text-center">
+                            <a href="#controls_collapse" data-bs-toggle="collapse" aria-expanded="true" role="button" aria-controls="controls_collapse" class="d-flex align-items-center aside_link">
+                                <i class="icon-control fa fa-chevron-down aside_icon"></i>
+                                <h6 class="title">Filter Controls</h6>
+                            </a>
+                        </header>
+                        <div class="filter_actions_group" id="controls_collapse">
                             <button class="filter_btn filter_btn__categories" onclick="submitCategories()">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>
                                 Apply categories
@@ -99,7 +102,7 @@
             </div>
         </aside>
 
-        <!-- Основная область с товарами -->
+        <!-- Main area with products -->
         <div class="col-md-10">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 {% for product, in_cart, amount in products_data %}
@@ -132,7 +135,7 @@
                 {% endfor %}
             </div>
         </div>
-    <!-- Простая пагинация -->
+    <!-- Pagination -->
     <div class="pagination mb-2">
         <div class="text-center rounds_container">
             {% if paginated_products.paginator.num_pages > 6 %}

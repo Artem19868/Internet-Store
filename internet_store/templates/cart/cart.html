@@ -10,6 +10,7 @@
         </div>
         {% else %}
         <div class="row">
+            <!--Cart items-->    
             {% for cart_item in cart_items %}
             <div class="col-3 mb-4">
                 <div class="card h-100  text-center">
@@ -21,7 +22,8 @@
                             <h3>{{ cart_item.product.product_name }}</h3>
                             <span>${{ cart_item.product.price }}</span>
                         </div>
-                    </a>    
+                    </a>
+                    <!--Cart buttons-->    
                     <div class="cart-controls button-container">
                         <div class="quantity-selector">
                             <button class="btn btn-sm btn-outline-secondary minus-button cart-minus-button"
@@ -43,8 +45,7 @@
                     </div>
                     
                 </div>
-            </div>
-                
+            </div>    
             {% endfor %}
         </div>
         {% endif %}

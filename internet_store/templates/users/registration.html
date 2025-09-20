@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container register-container">
+<div class="container auth-container">
     <div class="window-container card">
         <h2 class="text-center mb-4">Registration</h2>    
         {% if messages %}
@@ -10,6 +10,11 @@
                 {{ message }}
             </div>
             {% endfor %}
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-danger">
+            {{ error }}
+            </div>
         {% endif %}        
         <form method="post">
             {% csrf_token %}

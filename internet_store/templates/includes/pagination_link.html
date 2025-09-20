@@ -10,7 +10,3 @@
         <a href="?{% query_params_helper request page_number%}" class="pagination_link">{{ page_number }}</a>
 </div>
 {% endif %}
-
-{% comment %} <div class="round_pagination_inactive {% if page_number == active_page_number %}round_pagination_active{% endif %}">
-        <a href="?page={{ page_number }}" class="pagination_link">{{ page_number }}</a>
-</div> {% endcomment %}

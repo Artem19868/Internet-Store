@@ -9,7 +9,7 @@
 .register-container{
     margin: auto;
 }
-.register-container .card{
+.auth-container .card{
     border: 3px solid #df0c0c;
     border-radius: 8px;
 }
@@ -22,7 +22,7 @@
 }
 .login-register-link{
     text-decoration: none;
-    color: blue;
+    color: blue !important;
 }
 .btn-submit {
     width: 100%;

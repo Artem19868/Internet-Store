@@ -55,34 +55,6 @@ class ProductGallery(models.Model):
         verbose_name = 'Product photos'
         verbose_name_plural = 'Product gallery'
 
-class VariationManader(models.Manager):
-
-    def sizes(self):
-        return super(VariationManader,self).filter(variation_category='size', is_active=True)
-    
-    def colors(self):
-        return super(VariationManader,self).filter(variation_category='color', is_active=True)
-
-variation_category_choice = (
-    ('size', 'size'),
-    ('color', 'color'),
-)
-
-class Variation(models.Model):
-    objects = VariationManader()
-
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Product')
-    variation_category = models.CharField(max_length=100, choices=variation_category_choice, verbose_name='variation_category')
-    variation_value = models.CharField(max_length=100, verbose_name='Variation value')
-    is_active = models.BooleanField(default=True, verbose_name='Is active')
-
-    def __str__(self):
-        return self.variation_value
-
-    class Meta:
-        verbose_name = 'Variation'
-        verbose_name_plural = 'Variations'
-
 class ReviewRating(models.Model):
     objects = models.Manager()
 
@@ -92,8 +64,6 @@ class ReviewRating(models.Model):
     rating = models.IntegerField(verbose_name='rating')
     status = models.BooleanField(default=True, verbose_name='satus')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='created at')
-    # delete update field
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='updated at')
 
     def __str__(self):
         return self.review
