@@ -34,9 +34,9 @@ Django-based e-commerce platform with product catalog, shopping cart, and user a
     ```bash
     python -m venv venv
     source venv/bin/activate  # Linux/Mac
-    ```  
-    ```bash
-    **or**  
+    ```
+    **or**   
+    ```bash     
     venv\\Scripts\\activate     # Windows
     ```
 
