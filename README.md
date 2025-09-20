@@ -31,24 +31,34 @@ Django-based e-commerce platform with product catalog, shopping cart, and user a
    cd internet-store
 
 2. **Create virtual environment**
+    ```bash
     python -m venv venv
     source venv/bin/activate  # Linux/Mac
-    # or
-    venv\Scripts\activate     # Windows
+    ```  
+    ```bash
+    **or**  
+    venv\\Scripts\\activate     # Windows
+    ```
 
 3. **Install dependencies**
+    ```bash
     pip install -r requirements.txt
 
 4. **Set up environment variables**
+    ```bash
     cp .env.example .env
-    # Edit .env with your settings
+    Edit .env with your settings
 
 5. **Apply migrations**
+    ```bash
     python manage.py migrate
 
 6. **Create superuser (optional)**
+    ```bash
     python manage.py createsuperuser
 
 7. **Run development server**
+    ```bash
     python manage.py runserver
-    # Visit http://localhost:8000 in your browser.
+    ```
+    **Visit http://localhost:8000 in your browser.**
